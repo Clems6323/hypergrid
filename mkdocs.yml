@@ -1,0 +1,57 @@
+site_name: Hypergrid
+site_description: N-dimensional histogram library for multivariate data
+repo_url: https://github.com/your-username/hypergrid
+repo_name: your-username/hypergrid
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            show_source: true
+            show_root_heading: true
+            members_order: source
+  - mkdocs-jupyter:
+      execute: false
+      include_source: true
+
+nav:
+  - Home: index.md
+  - API Reference: api.md
+  - Examples:
+      - Basic usage: examples/01_basic.ipynb
+      - Comparing distributions: examples/02_comparison.ipynb
+      - Adaptive grids: examples/03_adaptive.ipynb
+      - Temporal tracking: examples/04_temporal.ipynb
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - tables
