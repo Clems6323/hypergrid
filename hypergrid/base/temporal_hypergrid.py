@@ -79,7 +79,7 @@ class TemporalHypergrid:
 
         Parameters
         ----------
-        method : {"js", "kl", "l1"}
+        method : {"js", "kl", "l1", "wasserstein"}
 
         Returns
         -------
@@ -88,11 +88,32 @@ class TemporalHypergrid:
         if len(self.snapshots) < 2:
             return []
 
+        if method == "wasserstein":
+            return self._evolution_wasserstein()
+
         fn = {"js": _js, "kl": _kl, "l1": _l1}[method]
         return [
             fn(_normalize(h1), _normalize(h2))
             for h1, h2 in zip(self.snapshots, self.snapshots[1:])
         ]
+
+    def _evolution_wasserstein(self):
+        from hypergrid.base.static_hypergrid import StaticHypergrid
+        from hypergrid.storage.storage import DictStorage
+
+        edges = self.grid.get_edges()
+        results = []
+        for h1, h2 in zip(self.snapshots, self.snapshots[1:]):
+            s1 = DictStorage()
+            for k, v in h1.items():
+                s1.data[k] = v
+            s2 = DictStorage()
+            for k, v in h2.items():
+                s2.data[k] = v
+            g1 = StaticHypergrid(edges, storage=s1)
+            g2 = StaticHypergrid(edges, storage=s2)
+            results.append(g1.compare(g2, method="wasserstein"))
+        return results
 
     def plot_evolution(self, method="js"):
         """Plot divergence between consecutive snapshots over time."""
