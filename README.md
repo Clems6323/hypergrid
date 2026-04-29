@@ -1,5 +1,9 @@
 # Hypergrid
 
+<p align="center">
+  <img src="docs/hypergrid_logo.png" alt="Hypergrid" width="300"/>
+</p>
+
 N-dimensional histogram library for multivariate data.
 
 Hypergrid bins arbitrary-dimensional data into a grid, then lets you update it incrementally, reproject it onto new edges, compare two grids statistically, and visualize the distribution — including UMAP projections and temporal drift.
