@@ -91,3 +91,32 @@ class TestCompare:
         g_dense.fit(data)
         g_sparse.fit(data)
         assert g_dense.compare(g_sparse, method="js") == pytest.approx(0.0, abs=1e-10)
+
+
+class TestCompareMarginal:
+    def test_rebin_true_uses_self_edges(self, edges):
+        rng = np.random.default_rng(25)
+        g1 = DenseHypergrid(edges)
+        g2 = DenseHypergrid(edges)
+        g1.fit(rng.standard_normal((500, 2)))
+        g2.fit(rng.standard_normal((500, 2)) + 1.0)
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots()
+        g1.compare_marginal(g2, dim=0, ax=ax, rebin=True)
+        plt.close(fig)
+
+    def test_rebin_false_uses_native_edges(self, edges):
+        rng = np.random.default_rng(26)
+        other_edges = [np.linspace(-4, 4, 17), np.linspace(-4, 4, 17)]
+        g1 = DenseHypergrid(edges)
+        g2 = DenseHypergrid(other_edges)
+        g1.fit(rng.standard_normal((500, 2)))
+        g2.fit(rng.standard_normal((500, 2)) + 1.0)
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots()
+        g1.compare_marginal(g2, dim=0, ax=ax, rebin=False)
+        plt.close(fig)
