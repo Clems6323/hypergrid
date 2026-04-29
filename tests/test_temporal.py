@@ -78,3 +78,12 @@ class TestTemporalHypergrid:
         tg.update(np.random.default_rng(58).standard_normal((500, 2)))
         result = tg.evolution(method=method)
         assert len(result) == len(tg.snapshots) - 1
+
+    def test_evolution_wasserstein(self):
+        edges = [np.linspace(-3, 3, 7), np.linspace(-3, 3, 7)]  # small grid for LP speed
+        tg = TemporalHypergrid(DenseHypergrid(edges), snapshot_interval=100)
+        for _ in range(3):
+            tg.update(np.random.default_rng(59).standard_normal((100, 2)))
+        result = tg.evolution(method="wasserstein")
+        assert len(result) == len(tg.snapshots) - 1
+        assert all(v >= 0.0 for v in result)
