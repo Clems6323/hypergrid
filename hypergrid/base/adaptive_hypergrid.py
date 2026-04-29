@@ -87,7 +87,7 @@ class AdaptiveHypergrid(BaseTensorHypergrid):
             weights = np.asarray(weights, dtype=float)
 
         for point, w in zip(data, weights):
-            self.buffer.append(point)
+            self.buffer.append((point, w))
             self._total += w
             idx = self._get_bin_index(point)
             if idx is None:
@@ -101,20 +101,22 @@ class AdaptiveHypergrid(BaseTensorHypergrid):
     def _rebin(self):
         self._drift_history.append(self._overflow / self._total)
 
-        data = np.array(self.buffer)
-        self._init_edges(data)
+        buf_points = np.array([p for p, _ in self.buffer])
+        buf_weights = np.array([w for _, w in self.buffer])
+
+        self._init_edges(buf_points)
         self.storage.clear()
         self._overflow = 0.0
         self._total = 0.0
 
         # Re-bin buffered points without triggering another rebin (direct add).
-        for point in data:
+        for point, w in zip(buf_points, buf_weights):
             idx = self._get_bin_index(point)
             if idx is not None:
-                self.storage.add(idx, 1.0)
+                self.storage.add(idx, w)
             else:
-                self._overflow += 1.0
-            self._total += 1.0
+                self._overflow += w
+            self._total += w
 
     def _init_edges(self, data):
         edges = compute_edges(data, method=self.binning_method, max_bins=self.max_bins)
