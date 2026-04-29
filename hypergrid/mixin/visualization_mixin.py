@@ -31,7 +31,7 @@ class VisualizationMixin:
 
         standalone = ax is None
         ax = ax or plt.gca()
-        ax.plot((edges[:-1] + edges[1:]) / 2, hist, marker="o", label=label)
+        ax.stairs(hist, edges, fill=True, alpha=0.7, label=label)
         ax.set_title(f"Marginal (dim {dim})")
         ax.set_xlabel(f"Dimension {dim}")
         ax.set_ylabel("Probability")
@@ -141,28 +141,59 @@ class VisualizationMixin:
     # Comparison plots
     # ------------------------------------------------------------------
 
-    def compare_marginal(self, other, dim, ax=None):
-        """Overlay marginal distributions for dimension `dim`."""
-        edges = self.get_edges()[dim]
-        other_proj = other.rebin_to(self.get_edges())
+    def compare_marginal(self, other, dim, ax=None, rebin=True):
+        """
+        Overlay marginal distributions for dimension `dim`.
 
-        h1 = np.zeros(len(edges) - 1)
-        h2 = np.zeros(len(edges) - 1)
-        for idx, v in self.get_mass().items():
-            h1[idx[dim]] += v
-        for idx, v in other_proj.items():
-            h2[idx[dim]] += v
-
-        h1 /= h1.sum() + 1e-12
-        h2 /= h2.sum() + 1e-12
-        centers = (edges[:-1] + edges[1:]) / 2
-
+        Parameters
+        ----------
+        other : hypergrid
+        dim : int
+        ax : matplotlib Axes, optional
+        rebin : bool
+            If True (default), project `other` onto self's edges before
+            comparing. If False, each grid is plotted on its own native edges.
+        """
         standalone = ax is None
         ax = ax or plt.gca()
-        ax.plot(centers, h1, label="self")
-        ax.plot(centers, h2, label="other")
+
+        if rebin:
+            edges = self.get_edges()[dim]
+            other_proj = other.rebin_to(self.get_edges())
+
+            h1 = np.zeros(len(edges) - 1)
+            h2 = np.zeros(len(edges) - 1)
+            for idx, v in self.get_mass().items():
+                h1[idx[dim]] += v
+            for idx, v in other_proj.items():
+                h2[idx[dim]] += v
+
+            h1 /= h1.sum() + 1e-12
+            h2 /= h2.sum() + 1e-12
+
+            ax.stairs(h1, edges, fill=True, alpha=0.5, label="self")
+            ax.stairs(h2, edges, fill=True, alpha=0.5, label="other")
+        else:
+            e1 = self.get_edges()[dim]
+            e2 = other.get_edges()[dim]
+
+            h1 = np.zeros(len(e1) - 1)
+            h2 = np.zeros(len(e2) - 1)
+            for idx, v in self.get_mass().items():
+                h1[idx[dim]] += v
+            for idx, v in other.get_mass().items():
+                h2[idx[dim]] += v
+
+            h1 /= h1.sum() + 1e-12
+            h2 /= h2.sum() + 1e-12
+
+            ax.stairs(h1, e1, fill=True, alpha=0.5, label="self")
+            ax.stairs(h2, e2, fill=True, alpha=0.5, label="other")
+
         ax.legend()
         ax.set_title(f"Marginal comparison (dim {dim})")
+        ax.set_xlabel(f"Dimension {dim}")
+        ax.set_ylabel("Probability")
         if standalone:
             plt.tight_layout()
             plt.show()
