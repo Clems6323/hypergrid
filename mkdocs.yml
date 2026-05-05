@@ -1,7 +1,7 @@
 site_name: Hypergrid
 site_description: N-dimensional histogram library for multivariate data
-repo_url: https://github.com/your-username/hypergrid
-repo_name: your-username/hypergrid
+repo_url: https://github.com/Clems6323/hypergrid
+repo_name: Clems6323/hypergrid
 
 theme:
   name: material
