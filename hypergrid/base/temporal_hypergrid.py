@@ -52,6 +52,10 @@ class TemporalHypergrid:
     def get_edges(self):
         return self.grid.get_edges()
 
+    def describe(self, percentiles=None):
+        """Delegate to the underlying grid's describe(). See StatsMixin.describe."""
+        return self.grid.describe(percentiles=percentiles)
+
     def fit(self, data, weights=None):
         self.grid.fit(data, weights)
         self._counter = 0

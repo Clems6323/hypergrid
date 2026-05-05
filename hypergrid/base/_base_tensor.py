@@ -5,6 +5,7 @@ from hypergrid.mixin.rebin_mixin import RebinMixin
 from hypergrid.mixin.comparison_mixin import ComparisonMixin
 from hypergrid.mixin.embedding_mixin import EmbeddingMixin
 from hypergrid.mixin.visualization_mixin import VisualizationMixin
+from hypergrid.mixin.stats_mixin import StatsMixin
 
 
 class BaseTensorHypergrid(
@@ -13,6 +14,7 @@ class BaseTensorHypergrid(
     ComparisonMixin,
     EmbeddingMixin,
     VisualizationMixin,
+    StatsMixin,
 ):
     """
     Shared base for all fixed-edge hypergrid variants.

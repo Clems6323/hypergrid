@@ -13,9 +13,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-umap = ["umap-learn>=0.5"]
-dev  = ["pytest>=7", "ruff"]
-docs = [
+umap  = ["umap-learn>=0.5"]
+stats = ["pandas>=1.5"]
+dev   = ["pytest>=7", "ruff", "pandas>=1.5"]
+docs  = [
     "mkdocs>=1.5",
     "mkdocs-jupyter>=0.24",
     "mkdocs-material>=9.0",
@@ -37,5 +38,6 @@ testpaths = ["tests"]
 
 [dependency-groups]
 dev = [
+    "pandas>=2.3.3",
     "pytest>=9.0.3",
 ]

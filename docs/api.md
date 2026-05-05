@@ -84,6 +84,12 @@
     options:
       heading_level: 4
 
+### StatsMixin
+
+::: hypergrid.mixin.stats_mixin.StatsMixin
+    options:
+      heading_level: 4
+
 ---
 
 ## Storage backends
