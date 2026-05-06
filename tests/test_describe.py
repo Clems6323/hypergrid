@@ -31,7 +31,7 @@ class TestDescribeBasic:
     def test_default_rows(self, filled_grid):
         g, _ = filled_grid
         df = g.describe()
-        assert list(df.index) == ["count", "mean", "std", "min", "25%", "50%", "75%", "max"]
+        assert list(df.index) == ["count", "mean", "std", "skewness", "kurtosis", "min", "25%", "50%", "75%", "max"]
 
     def test_count_equals_total_mass(self, filled_grid):
         g, _ = filled_grid
@@ -73,6 +73,38 @@ class TestDescribeBasic:
             for pct in ["25%", "50%", "75%"]:
                 assert df.loc["min", d] <= df.loc[pct, d] <= df.loc["max", d]
 
+    def test_skewness_finite(self, filled_grid):
+        g, _ = filled_grid
+        df = g.describe()
+        for d in df.columns:
+            assert np.isfinite(df.loc["skewness", d])
+
+    def test_kurtosis_finite(self, filled_grid):
+        g, _ = filled_grid
+        df = g.describe()
+        for d in df.columns:
+            assert np.isfinite(df.loc["kurtosis", d])
+
+    def test_normal_skewness_near_zero(self):
+        rng = np.random.default_rng(200)
+        data = rng.standard_normal((5000, 2))
+        edges = [np.linspace(-4, 4, 81)] * 2
+        g = DenseHypergrid(edges)
+        g.fit(data)
+        df = g.describe()
+        for d in range(2):
+            assert df.loc["skewness", d] == pytest.approx(0.0, abs=0.2)
+
+    def test_normal_kurtosis_near_zero(self):
+        rng = np.random.default_rng(201)
+        data = rng.standard_normal((5000, 2))
+        edges = [np.linspace(-4, 4, 81)] * 2
+        g = DenseHypergrid(edges)
+        g.fit(data)
+        df = g.describe()
+        for d in range(2):
+            assert df.loc["kurtosis", d] == pytest.approx(0.0, abs=0.5)
+
 
 class TestDescribeCustomPercentiles:
     def test_custom_percentiles_in_index(self, filled_grid):
@@ -85,7 +117,7 @@ class TestDescribeCustomPercentiles:
     def test_empty_percentiles(self, filled_grid):
         g, _ = filled_grid
         df = g.describe(percentiles=[])
-        assert list(df.index) == ["count", "mean", "std", "min", "max"]
+        assert list(df.index) == ["count", "mean", "std", "skewness", "kurtosis", "min", "max"]
 
     def test_single_percentile(self, filled_grid):
         g, _ = filled_grid
@@ -156,6 +188,8 @@ class TestDescribeEdgeCases:
         assert df.loc["count", 0] == 0.0
         assert pd.isna(df.loc["mean", 0])
         assert pd.isna(df.loc["std", 0])
+        assert pd.isna(df.loc["skewness", 0])
+        assert pd.isna(df.loc["kurtosis", 0])
 
     def test_single_bin_occupied(self):
         edges = [np.linspace(0, 3, 4), np.linspace(0, 3, 4)]
@@ -164,6 +198,8 @@ class TestDescribeEdgeCases:
         df = g.describe()
         assert df.loc["count", 0] == pytest.approx(10.0)
         assert df.loc["std", 0] == pytest.approx(0.0)
+        assert df.loc["skewness", 0] == pytest.approx(0.0)
+        assert df.loc["kurtosis", 0] == pytest.approx(0.0)
 
     def test_weighted_count(self):
         edges = [np.linspace(0, 3, 4), np.linspace(0, 3, 4)]
