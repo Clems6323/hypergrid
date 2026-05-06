@@ -4,20 +4,10 @@
   <img src="docs/hypergrid_logo.png" alt="Hypergrid" width="300"/>
 </p>
 
-<p align="center">
-  <a href="https://github.com/Clems6323/hypergrid/actions/workflows/build-test-release.yml">
-    <img src="https://github.com/Clems6323/hypergrid/actions/workflows/build-test-release.yml/badge.svg" alt="CI"/>
-  </a>
-  <a href="https://pypi.org/project/pyHypergrid/">
-    <img src="https://img.shields.io/pypi/v/pyHypergrid" alt="PyPI version"/>
-  </a>
-  <a href="https://pypi.org/project/pyHypergrid/">
-    <img src="https://img.shields.io/pypi/pyversions/pyHypergrid" alt="Python versions"/>
-  </a>
-  <a href="https://clems6323.github.io/hypergrid/">
-    <img src="https://img.shields.io/badge/docs-online-blue" alt="Documentation"/>
-  </a>
-</p>
+[![build](https://github.com/Clems6323/hypergrid/actions/workflows/build-test-release.yml/badge.svg)](https://github.com/Clems6323/hypergrid/actions/workflows/build-test-release.yml)
+![python](https://img.shields.io/badge/python-%203.10%20|%203.11%20|%203.12%20|%203.13-blue)
+[![PyPI version](https://badge.fury.io/py/pyHypergrid.svg)](https://badge.fury.io/py/pyHypergrid)
+[![docs](https://img.shields.io/badge/docs-online-blue)](https://clems6323.github.io/hypergrid/)
 
 N-dimensional histogram library for multivariate data.
 
