@@ -45,7 +45,12 @@ nav:
       - Binning rules: concepts/binning_rules.md
       - Rebinning strategy: concepts/rebinning_strategy.md
       - Temporal decay: concepts/temporal_decay.md
-  - API Reference: api.md
+  - API Reference:
+      - Base classes: api/base_classes.md
+      - Grid classes: api/grid_classes.md
+      - Mixins: api/mixins.md
+      - Storage backend: api/storage.md
+      - Utilities: api/utilities.md
   - Examples:
       - Basic usage: examples/01_basic.ipynb
       - Comparing distributions: examples/02_comparison.ipynb
