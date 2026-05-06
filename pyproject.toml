@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "N-dimensional histogram library for multivariate data — binning, rebinning, comparison, and visualization."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 
 dependencies = [
     "numpy>=1.24",
