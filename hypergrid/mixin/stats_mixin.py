@@ -25,7 +25,7 @@ class StatsMixin:
         Returns
         -------
         pandas.DataFrame
-            Rows: count, mean, std, min, <percentiles>, max.
+            Rows: count, mean, std, skewness, kurtosis, min, <percentiles>, max.
             Columns: integer dimension indices 0, 1, …, dim-1.
 
         Notes
@@ -34,6 +34,9 @@ class StatsMixin:
 
         - **count** — total mass (sum of all bin counts, equal across dimensions).
         - **mean / std** — probability-weighted mean and population std of bin centres.
+        - **skewness** — third standardised central moment (0 for symmetric distributions).
+        - **kurtosis** — fourth standardised central moment minus 3 (excess kurtosis;
+          0 for a normal distribution).
         - **min / max** — lower / upper edge of the outermost non-empty bin.
         - **percentiles** — linearly interpolated within bins from the marginal CDF.
         """
@@ -67,13 +70,24 @@ class StatsMixin:
                 pct_rows = {_pct_label(p): np.nan for p in percentiles}
                 columns[d] = {
                     "count": 0.0, "mean": np.nan, "std": np.nan,
+                    "skewness": np.nan, "kurtosis": np.nan,
                     "min": np.nan, **pct_rows, "max": np.nan,
                 }
                 continue
 
             w = marg / total
             mean = float(np.dot(w, centers))
-            std = float(np.sqrt(np.dot(w, (centers - mean) ** 2)))
+            deviations = centers - mean
+            variance = float(np.dot(w, deviations ** 2))
+            std = float(np.sqrt(variance))
+
+            # Standardised central moments; guard against zero-variance (single bin).
+            if std > 0:
+                skewness = float(np.dot(w, deviations ** 3) / std ** 3)
+                kurtosis = float(np.dot(w, deviations ** 4) / std ** 4) - 3.0
+            else:
+                skewness = 0.0
+                kurtosis = 0.0
 
             nonempty = np.where(marg > 0)[0]
             min_val = float(e[nonempty[0]])
@@ -94,6 +108,8 @@ class StatsMixin:
                 "count": float(total),
                 "mean": mean,
                 "std": std,
+                "skewness": skewness,
+                "kurtosis": kurtosis,
                 "min": min_val,
                 **pct_rows,
                 "max": max_val,
