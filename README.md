@@ -11,9 +11,25 @@ Hypergrid bins arbitrary-dimensional data into a grid, then lets you update it i
 ## Installation
 
 ```bash
-pip install hypergrid
-# with UMAP support:
-pip install "hypergrid[umap]"
+# pip
+pip install pyHypergrid
+
+# uv
+uv add pyHypergrid
+```
+
+Optional extras:
+
+```bash
+# pip — with pandas (describe()) and/or UMAP support
+pip install "pyHypergrid[stats]"
+pip install "pyHypergrid[umap]"
+pip install "pyHypergrid[stats,umap]"
+
+# uv
+uv add "pyHypergrid[stats]"
+uv add "pyHypergrid[umap]"
+uv add "pyHypergrid[stats,umap]"
 ```
 
 ## Quick start
