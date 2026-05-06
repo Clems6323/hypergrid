@@ -4,6 +4,21 @@
   <img src="docs/hypergrid_logo.png" alt="Hypergrid" width="300"/>
 </p>
 
+<p align="center">
+  <a href="https://github.com/Clems6323/hypergrid/actions/workflows/build-test-release.yml">
+    <img src="https://github.com/Clems6323/hypergrid/actions/workflows/build-test-release.yml/badge.svg" alt="CI"/>
+  </a>
+  <a href="https://pypi.org/project/pyHypergrid/">
+    <img src="https://img.shields.io/pypi/v/pyHypergrid" alt="PyPI version"/>
+  </a>
+  <a href="https://pypi.org/project/pyHypergrid/">
+    <img src="https://img.shields.io/pypi/pyversions/pyHypergrid" alt="Python versions"/>
+  </a>
+  <a href="https://clems6323.github.io/hypergrid/">
+    <img src="https://img.shields.io/badge/docs-online-blue" alt="Documentation"/>
+  </a>
+</p>
+
 N-dimensional histogram library for multivariate data.
 
 Hypergrid bins arbitrary-dimensional data into a grid, then lets you update it incrementally, reproject it onto new edges, compare two grids statistically, and visualize the distribution — including UMAP projections and temporal drift.
