@@ -40,7 +40,11 @@ plugins:
 
 nav:
   - Home: index.md
-  - Concepts: concepts.md
+  - Concepts:
+      - Distance metrics: concepts/distance_metrics.md
+      - Binning rules: concepts/binning_rules.md
+      - Rebinning strategy: concepts/rebinning_strategy.md
+      - Temporal decay: concepts/temporal_decay.md
   - API Reference: api.md
   - Examples:
       - Basic usage: examples/01_basic.ipynb
