@@ -6,6 +6,36 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 
+keywords = [
+    "histogram",
+    "multivariate",
+    "n-dimensional",
+    "binning",
+    "density estimation",
+    "distribution",
+    "rebinning",
+    "statistics",
+    "data analysis",
+    "numpy",
+    "scipy",
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Natural Language :: English",
+]
+
 dependencies = [
     "numpy>=1.24",
     "scipy>=1.10",
